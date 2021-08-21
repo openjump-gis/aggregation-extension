@@ -23,11 +23,11 @@
 
 package fr.michaelm.jump.plugin.aggregation.function;
 
+import com.vividsolutions.jump.I18N;
 import com.vividsolutions.jump.feature.AttributeType;
 import com.vividsolutions.jump.feature.Feature;
 import com.vividsolutions.jump.feature.FeatureSchema;
 import fr.michaelm.jump.plugin.aggregation.AggregationFunction;
-import fr.michaelm.jump.plugin.aggregation.I18NPlug;
 
 import java.util.Date;
 import java.util.List;
@@ -44,7 +44,8 @@ import java.util.List;
 public class Max extends AggregationFunction {
 
     public Max() {
-        super(I18NPlug.getI18N("function.Max"));
+        super(I18N.getInstance("fr.michaelm.jump.plugin.aggregation")
+            .get("function.Max"));
     }
 
     public Object aggregate(List<Feature> list, String sourceAttr, boolean ignore_null, Object param) {

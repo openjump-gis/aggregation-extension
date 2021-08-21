@@ -23,8 +23,8 @@
 
 package fr.michaelm.jump.plugin.aggregation.function;
 
+import com.vividsolutions.jump.I18N;
 import fr.michaelm.jump.plugin.aggregation.AggregationFunction;
-import fr.michaelm.jump.plugin.aggregation.I18NPlug;
 
 import java.util.*;
 import com.vividsolutions.jump.feature.AttributeType;
@@ -41,7 +41,8 @@ import com.vividsolutions.jump.feature.Feature;
 public class CountNonNull extends AggregationFunction {
 
     public CountNonNull() {
-        super(I18NPlug.getI18N("function.CountNonNull"));
+        super(I18N.getInstance("fr.michaelm.jump.plugin.aggregation")
+            .get("function.CountNonNull"));
     }
 
     public Integer aggregate(List<Feature> list, String sourceAttr, boolean ignore_null, Object param) {

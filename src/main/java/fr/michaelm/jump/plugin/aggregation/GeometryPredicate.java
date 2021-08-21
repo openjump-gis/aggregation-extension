@@ -23,6 +23,7 @@
 
 package fr.michaelm.jump.plugin.aggregation;
 
+import com.vividsolutions.jump.I18N;
 import org.locationtech.jts.geom.Geometry;
 
 import java.util.*;
@@ -35,8 +36,10 @@ import java.util.*;
  * @author Martin Davis
  * @version 1.0
  */
-public abstract class GeometryPredicate
-{
+public abstract class GeometryPredicate {
+
+  private static final I18N i18n = I18N.getInstance("fr.michaelm.jump.plugin.aggregation");
+
   static GeometryPredicate[] method = {
     new IntersectsPredicate(),
     new PlainIntersectsPredicate(),
@@ -106,30 +109,47 @@ public abstract class GeometryPredicate
   public abstract boolean isTrue(Geometry geom0, Geometry geom1, double[] param);
 
   private static class IntersectsPredicate extends GeometryPredicate {
-    public IntersectsPredicate() {  super(I18NPlug.getI18N("predicate.Intersects"));  }
+    public IntersectsPredicate() {
+      super(i18n.get("predicate.Intersects"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.intersects(geom1);   }
+      return geom0.intersects(geom1);
+    }
   }
+
   private static class PlainIntersectsPredicate extends GeometryPredicate {
-    public PlainIntersectsPredicate() {  super(I18NPlug.getI18N("predicate.PlainIntersects"));  }
+    public PlainIntersectsPredicate() {
+      super(i18n.get("predicate.PlainIntersects"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.relate(geom1, "T********");   }
+      return geom0.relate(geom1, "T********");
+    }
   }
+
   /*private static class ContainsPredicate extends GeometryPredicate {
     public ContainsPredicate() {  super(GenericNames.CONTAINS);  }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
       return geom0.contains(geom1);   }
   }*/
+
   private static class CoversPredicate extends GeometryPredicate {
-    public CoversPredicate() {  super(I18NPlug.getI18N("predicate.Covers"));  }
+    public CoversPredicate() {
+      super(i18n.get("predicate.Covers"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.covers(geom1);   }
+      return geom0.covers(geom1);
+    }
   }
+
   private static class CoveredByPredicate extends GeometryPredicate {
-    public CoveredByPredicate() {  super(I18NPlug.getI18N("predicate.CoveredBy"));  }
+    public CoveredByPredicate() {
+      super(i18n.get("predicate.CoveredBy"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.coveredBy(geom1);   }
+      return geom0.coveredBy(geom1);
+    }
   }
+
   /*private static class CrossesPredicate extends GeometryPredicate {
     public CrossesPredicate() {  super(GenericNames.CROSSES);  }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
@@ -140,11 +160,16 @@ public abstract class GeometryPredicate
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
       return geom0.disjoint(geom1);   }
   }*/
+
   private static class EqualsPredicate extends GeometryPredicate {
-    public EqualsPredicate() {  super(I18NPlug.getI18N("predicate.Equals"));  }
+    public EqualsPredicate() {
+      super(i18n.get("predicate.Equals"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.equals(geom1);   }
+      return geom0.equals(geom1);
+    }
   }
+
   /*private static class OverlapsPredicate extends GeometryPredicate {
     public OverlapsPredicate() {  super(GenericNames.OVERLAPS);  }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
@@ -157,14 +182,21 @@ public abstract class GeometryPredicate
   }
   */
   private static class WithinPredicate extends GeometryPredicate {
-    public WithinPredicate() {  super(I18NPlug.getI18N("predicate.Within"));  }
+    public WithinPredicate() {
+      super(i18n.get("predicate.Within"));
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.within(geom1);   }
+      return geom0.within(geom1);
+    }
   }
+
   public static class WithinDistancePredicate extends GeometryPredicate {
-    public WithinDistancePredicate() {  super(I18NPlug.getI18N("predicate.WithinDistance"), 1);  }
+    public WithinDistancePredicate() {
+      super(i18n.get("predicate.WithinDistance"), 1);
+    }
     public boolean isTrue(Geometry geom0, Geometry geom1, double[] param) {
-      return geom0.isWithinDistance(geom1, param[0]);   }
+      return geom0.isWithinDistance(geom1, param[0]);
+    }
   }
   /*public static class SimilarPredicate extends GeometryPredicate {
       public SimilarPredicate() {  super(GenericNames.SIMILAR, 1);  }

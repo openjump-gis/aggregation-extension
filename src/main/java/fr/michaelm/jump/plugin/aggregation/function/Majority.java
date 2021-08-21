@@ -23,11 +23,11 @@
 
 package fr.michaelm.jump.plugin.aggregation.function;
 
+import com.vividsolutions.jump.I18N;
 import com.vividsolutions.jump.feature.AttributeType;
 import com.vividsolutions.jump.feature.Feature;
 import com.vividsolutions.jump.feature.FeatureSchema;
 import fr.michaelm.jump.plugin.aggregation.AggregationFunction;
-import fr.michaelm.jump.plugin.aggregation.I18NPlug;
 
 import java.util.*;
 
@@ -43,7 +43,8 @@ import java.util.*;
 public class Majority extends AggregationFunction {
 
     public Majority() {
-        super(I18NPlug.getI18N("function.Majority"));
+        super(I18N.getInstance("fr.michaelm.jump.plugin.aggregation")
+            .get("function.Majority"));
     }
 
     public Object aggregate(List<Feature> list,

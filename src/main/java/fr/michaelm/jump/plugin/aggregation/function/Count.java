@@ -23,8 +23,8 @@
 
 package fr.michaelm.jump.plugin.aggregation.function;
 
+import com.vividsolutions.jump.I18N;
 import fr.michaelm.jump.plugin.aggregation.AggregationFunction;
-import fr.michaelm.jump.plugin.aggregation.I18NPlug;
 
 import java.util.*;
 import com.vividsolutions.jump.feature.AttributeType;
@@ -41,7 +41,8 @@ import com.vividsolutions.jump.feature.Feature;
 public class Count extends AggregationFunction {
 
     public Count() {
-        super(I18NPlug.getI18N("function.Count"));
+        super(I18N.getInstance("fr.michaelm.jump.plugin.aggregation")
+            .get("function.Count"));
     }
 
     public Object aggregate(List<Feature> list, String sourceAttr,

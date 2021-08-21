@@ -23,6 +23,7 @@
 
 package fr.michaelm.jump.plugin.aggregation;
 
+import com.vividsolutions.jump.I18N;
 import com.vividsolutions.jump.feature.*;
 import com.vividsolutions.jump.task.TaskMonitor;
 import com.vividsolutions.jump.workbench.model.Layer;
@@ -59,6 +60,7 @@ import java.util.List;
  * geometry area.
  */
 // History
+// 2.0.0 (2021-08-21) upgrade i18n management and align version number to OpenJUMP'2
 // 1.0.0 (2021-04-05) refactoring for java8 / OpenJUMP2 / jts1.18
 // 0.2.10 (2017-01-03) fix the initial list of operators
 // 0.2.9 (2016-12-01) fix option new_layer which did not work
@@ -66,6 +68,8 @@ import java.util.List;
 // 0.2.7 (2013-03-20) add finnish language file
 // 0.2.6 (2013-02-17) put the result in a new layer is now an option
 public class AggregatePlugIn extends ThreadedBasePlugIn {
+
+    private final I18N i18n = I18N.getInstance("fr.michaelm.jump.plugin.aggregation");
 
     // Lazy initialization of I18N variables
     private static String AGGREGATION_OPTIONS; // Dialog title
@@ -100,7 +104,7 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
     private boolean intersection = false;
     private boolean ignore_null = true;
     private AggregationFunction function =
-        AggregationFunction.getFunction(I18NPlug.getI18N("function.Count"));
+        AggregationFunction.getFunction(i18n.get("function.Count"));
     private boolean new_layer = false;
 
     public AggregatePlugIn() {
@@ -108,23 +112,21 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
 
     public void initialize(PlugInContext context) {
 
-        String AGGREGATION  = I18NPlug.getI18N("aggregation");
+        String AGGREGATION  = i18n.get("aggregation");
 
-        AGGREGATION_OPTIONS = I18NPlug.getI18N("aggregation-options");
+        AGGREGATION_OPTIONS = i18n.get("aggregation-options");
         
-        SRC_LAYER    = I18NPlug.getI18N("src-layer");
-        TGT_LAYER    = I18NPlug.getI18N("tgt-layer");
-        RELATION     = I18NPlug.getI18N("relation");
-        PARAMETER    = I18NPlug.getI18N("parameter");
-        INTERSECTION = I18NPlug.getI18N("intersection");
-        IGNORE_NULL  = I18NPlug.getI18N("ignore-null");
-        ATTRIBUTE    = I18NPlug.getI18N("attribute");
-        FUNCTION     = I18NPlug.getI18N("function");
-
-        LENGTH       = I18NPlug.getI18N("length");
-        AREA         = I18NPlug.getI18N("area");
-        
-        NEW_LAYER    = I18NPlug.getI18N("new-layer");
+        SRC_LAYER    = i18n.get("src-layer");
+        TGT_LAYER    = i18n.get("tgt-layer");
+        RELATION     = i18n.get("relation");
+        PARAMETER    = i18n.get("parameter");
+        INTERSECTION = i18n.get("intersection");
+        IGNORE_NULL  = i18n.get("ignore-null");
+        ATTRIBUTE    = i18n.get("attribute");
+        FUNCTION     = i18n.get("function");
+        LENGTH       = i18n.get("length");
+        AREA         = i18n.get("area");
+        NEW_LAYER    = i18n.get("new-layer");
 
 
         context.getFeatureInstaller().addMainMenuPlugin(
@@ -154,7 +156,6 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
         srcGeometryName = srcSchema.getAttributeName(srcSchema.getGeometryIndex());
 
         // Choose Source layer and destination layer
-        @SuppressWarnings("unchecked")
         final JComboBox<Layer> jcb_srcLayer =
             dialog.addLayerComboBox(SRC_LAYER, srcLayer, null, context.getLayerManager());
 
@@ -305,8 +306,8 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
  
     public void run(TaskMonitor monitor, PlugInContext context) {
         monitor.allowCancellationRequests();
-        monitor.report(I18NPlug.getI18N("monitor.aggregation-of") +
-            srcLayer.getName() + I18NPlug.getI18N("monitor.on") + tgtLayer.getName());
+        monitor.report(i18n.get("monitor.aggregation-of") +
+            srcLayer.getName() + i18n.get("monitor.on") + tgtLayer.getName());
  
         FeatureSchema tgtSchema = tgtLayer.getFeatureCollectionWrapper().getFeatureSchema();
         int feature_count = tgtLayer.getFeatureCollectionWrapper().size();
@@ -344,7 +345,7 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
         // Main loop over target feature collection
         for (Feature feature : tgtLayer.getFeatureCollectionWrapper().getFeatures()) {
             Geometry geometry = feature.getGeometry();
-            monitor.report(++count, feature_count, I18NPlug.getI18N("monitor.features"));
+            monitor.report(++count, feature_count, i18n.get("monitor.features"));
             Feature newFeature = new BasicFeature(newSchema);
             for (int i = 0 ; i < tgtSchema.getAttributeCount() ; i++) {
                 newFeature.setAttribute(i, feature.getAttribute(i));
@@ -423,7 +424,7 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
         // Option taking only the intersection part of the related geometry
         // is useful with PlainIntersects predicate. It would be equivalent
         // with Intersects predicate
-        return ((relation.getName().equals(I18NPlug.getI18N("predicate.PlainIntersects"))) &&
+        return ((relation.getName().equals(i18n.get("predicate.PlainIntersects"))) &&
                 (attribute.equals(srcGeometryName) ||
                  attribute.equals(srcGeometryName+"."+LENGTH) ||
                  attribute.equals(srcGeometryName+"."+AREA)));
@@ -434,7 +435,7 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
         // PlainIntersects predicate
         // Geometry, Geometry.Length and Geometry.Area attributes
         // function different from count
-        return ((relation.getName().equals(I18NPlug.getI18N("predicate.PlainIntersects"))) &&
+        return ((relation.getName().equals(i18n.get("predicate.PlainIntersects"))) &&
                 (attribute.equals(srcGeometryName) ||
                  attribute.equals(srcGeometryName+"."+LENGTH) ||
                  attribute.equals(srcGeometryName+"."+AREA)) &&
@@ -443,7 +444,7 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
     
     private String getDescription() {
         String descr = "";
-        descr += I18NPlug.getI18N("example") + " \"";
+        descr += i18n.get("example") + " \"";
         descr += function.getName() + "\":\nf";
         if (function instanceof Union) descr += "(Polygon1,Polygon2) = MultiPolygon";
         else if (function instanceof Count && ignore_null) descr += "(a1,a2,null) = 2";
@@ -464,8 +465,8 @@ public class AggregatePlugIn extends ThreadedBasePlugIn {
     private Icon createSideBarImage() {
         String path = "";
         String gp = relation.getClass().getName().substring(relation.getClass().getName().lastIndexOf("$") + 1);
-        if ((relation.getName().equals(I18NPlug.getI18N("predicate.Intersects")) ||
-            relation.getName().equals(I18NPlug.getI18N("predicate.PlainIntersects"))) &&
+        if ((relation.getName().equals(i18n.get("predicate.Intersects")) ||
+            relation.getName().equals(i18n.get("predicate.PlainIntersects"))) &&
             isIntersectionOptionUseful() && intersection) {
             gp += "I";
         }
