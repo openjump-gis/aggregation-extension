@@ -60,6 +60,7 @@ import java.util.List;
  * geometry area.
  */
 // History
+// 2.0.1 (2022-08-27) change properties files to UTF-8
 // 2.0.0 (2021-08-21) upgrade i18n management and align version number to OpenJUMP'2
 // 1.0.0 (2021-04-05) refactoring for java8 / OpenJUMP2 / jts1.18
 // 0.2.10 (2017-01-03) fix the initial list of operators
